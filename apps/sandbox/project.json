@@ -1,0 +1,55 @@
+{
+  "name": "sandbox",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/sandbox/src",
+  "projectType": "application",
+  "targets": {
+    "build-repl": {
+      "executor": "@nrwl/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/sandbox",
+        "main": "apps/sandbox/src/repl.ts",
+        "tsConfig": "apps/sandbox/tsconfig.app.json",
+        "assets": ["apps/sandbox/src/assets"],
+        "compiler": "tsc",
+        "target": "node"
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/sandbox/src/environments/environment.ts",
+              "with": "apps/sandbox/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve-repl": {
+      "executor": "@nx/js:node",
+      "options": {
+        "buildTarget": "sandbox:build-repl"
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/sandbox/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/apps/sandbox"],
+      "options": {
+        "jestConfig": "apps/sandbox/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
