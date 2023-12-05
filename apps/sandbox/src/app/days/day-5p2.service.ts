@@ -95,9 +95,6 @@ export class Day5P2Service {
   private processMapping(result: number, mapping: LocationMapping[]): number {
     for (const item of mapping) {
       if (item.source <= result && result < item.source + item.range) {
-        // console.log(
-        //   `Mapping found : ${item.source} < ${result} < ${item.destination} with range ${item.range}`
-        // )
         return item.destination + (result - item.source)
       }
     }
@@ -113,28 +110,18 @@ export class Day5P2Service {
         seedNumber < seed.begin + seed.range;
         seedNumber++
       ) {
-        // console.log('')
-        // console.log('processing seed : ', seedNumber)
         let result = seedNumber
         result = this.processMapping(result, content.seedToSoil)
-        // console.log('result after seedToSoil : ', result)
         result = this.processMapping(result, content.soilToFertilizer)
-        // console.log('result after soilToFertilizer : ', result)
         result = this.processMapping(result, content.fertilizerToWater)
-        // console.log('result after fertilizerToWater : ', result)
         result = this.processMapping(result, content.waterToLight)
-        // console.log('result after waterToLight : ', result)
         result = this.processMapping(result, content.lightToTemperature)
-        // console.log('result after lightToTemperature : ', result)
         result = this.processMapping(result, content.temperatureToHumidity)
-        // console.log('result after temperatureToHumidity : ', result)
         result = this.processMapping(result, content.humidityToLocation)
-        // console.log('result after humidityToLocation : ', result)
         if (!minLocation) {
           minLocation = result
         } else if (result < minLocation) {
           minLocation = result
-          //console.log('minLocation updated : ', minLocation)
         }
       }
     }
